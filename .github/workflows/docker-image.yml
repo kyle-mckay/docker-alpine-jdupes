@@ -3,9 +3,9 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main         # Trigger workflow on pushes to the main branch
-  tags:
-    - 'v*'           # Or you can trigger it on a tag like 'v1.0.0'
+      - main       # Trigger workflow on pushes to the 'main' branch
+    tags:
+      - 'v*'       # Trigger workflow on tags starting with 'v', like 'v1.0.0'
 
 jobs:
   build:
@@ -30,11 +30,10 @@ jobs:
       # Build the Docker image
       - name: Build Docker image
         run: |
-          docker build -t yourusername/custom-alpine-zip .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/docker-alphine-zip .
 
       # Push the Docker image to Docker Hub
       - name: Push Docker image
         run: |
-          docker push yourusername/custom-alpine-zip:latest
-          docker push yourusername/custom-alpine-zip:${GITHUB_SHA}
-
+          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alphine-zip:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alphine-zip:${GITHUB_SHA}
