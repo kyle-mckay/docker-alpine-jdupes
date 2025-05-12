@@ -32,12 +32,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:latest .
-          docker tag ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:latest ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:${{ env.FULL_TAG }}
-          docker tag ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:latest ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:${{ env.MAJOR_TAG }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/docker-debian-jdupes:latest .
+          docker tag ${{ secrets.DOCKER_USERNAME }}/docker-debian-jdupes:latest ${{ secrets.DOCKER_USERNAME }}/docker-debian-jdupes:${{ env.FULL_TAG }}
+          docker tag ${{ secrets.DOCKER_USERNAME }}/docker-debian-jdupes:latest ${{ secrets.DOCKER_USERNAME }}/docker-debian-jdupes:${{ env.MAJOR_TAG }}
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:${{ env.FULL_TAG }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:${{ env.MAJOR_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/docker-debian-jdupes:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/docker-debian-jdupes:${{ env.FULL_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/docker-debian-jdupes:${{ env.MAJOR_TAG }}
