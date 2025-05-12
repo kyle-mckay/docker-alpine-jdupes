@@ -1,4 +1,6 @@
-# `docker-alpine-jdupes`
+# `docker-jdupes`
+
+**PLEASE BE AWARE THAT THIS IS NOT YET WORKING**
 
 ## Docker Image for Deduplication Using `jdupes`
 
