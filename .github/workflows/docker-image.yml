@@ -3,38 +3,43 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main       # Trigger workflow on pushes to the 'main' branch
+      - main
     tags:
-      - 'v*'       # Trigger workflow on tags starting with 'v', like 'v1.0.0'
+      - 'v*'  # Matches tags like v1.0.0, v2.3.4
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up Docker Buildx for multi-platform builds
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build the Docker image with dynamic username from secrets
+      - name: Extract Tag Info
+        id: extract
+        run: |
+          FULL_TAG="${GITHUB_REF##*/}"
+          echo "FULL_TAG=${FULL_TAG}" >> $GITHUB_ENV
+          MAJOR_TAG=$(echo $FULL_TAG | sed -E 's/^v([0-9]+).*/v\1/')
+          echo "MAJOR_TAG=${MAJOR_TAG}" >> $GITHUB_ENV
+
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/docker-alpine-zip:latest .
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/docker-alpine-zip:${GITHUB_SHA} .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:latest .
+          docker tag ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:latest ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:${{ env.FULL_TAG }}
+          docker tag ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:latest ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:${{ env.MAJOR_TAG }}
 
-      # Push the Docker image to Docker Hub
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alpine-zip:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alpine-zip:${GITHUB_SHA}
+          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:${{ env.FULL_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/docker-alpine-jdupes:${{ env.MAJOR_TAG }}
