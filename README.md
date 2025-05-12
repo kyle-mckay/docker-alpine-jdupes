@@ -72,11 +72,9 @@ This will build the Docker image based on the provided `Dockerfile`.
 Update the `docker-compose.yml` file to specify your paths and flags. Example:
 
 ```yaml
-version: "3.9"
-
 services:
   jdupes:
-    image: yourdockerhubuser/docker-alpine-jdupes:latest  # Use the image you push
+    image: ne2rkstri9/docker-debian-jdupes:latest  # Use the image you push
     container_name: jdupes
     environment:
       JDUPES_ARGS: "-r -A -m"  # Specify your flags
