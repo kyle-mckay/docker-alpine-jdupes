@@ -1,8 +1,11 @@
-# Use Alpine as the base image
-FROM alpine:latest
+# Use a lightweight Debian image as the base
+FROM debian:bullseye-slim
 
 # Install jdupes and bash
-RUN apk add --no-cache jdupes bash
+RUN apt-get update && apt-get install -y \
+    bash \
+    jdupes \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set working directory to /data (where mounted volumes will reside)
 WORKDIR /data
