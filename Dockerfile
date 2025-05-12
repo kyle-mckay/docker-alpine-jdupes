@@ -1,8 +1,11 @@
-# Start with the latest Alpine image
+# Alpine-based image with jdupes
 FROM alpine:latest
 
-# Install zip and any other tools
-RUN apk add --no-cache zip bash
+# Install jdupes
+RUN apk add --no-cache jdupes
 
-# Optional: Set a default working directory
-WORKDIR /app
+# Set default working directory
+WORKDIR /data
+
+# Default command (can be overridden)
+ENTRYPOINT ["jdupes"]
