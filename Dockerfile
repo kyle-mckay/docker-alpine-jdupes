@@ -15,4 +15,4 @@ ENV JDUPES_PATHS=""
 ENTRYPOINT ["/bin/bash", "-c"]
 
 # Default command: expand JDUPES_ARGS and JDUPES_PATHS into the jdupes command
-CMD ["jdupes $JDUPES_ARGS $JDUPES_PATHS"]
+CMD ["echo 'Starting jdupes with args: $JDUPES_ARGS and paths: $JDUPES_PATHS' && jdupes $JDUPES_ARGS $JDUPES_PATHS"]
